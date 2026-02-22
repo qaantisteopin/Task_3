@@ -1,4 +1,4 @@
-from clients.auth import ClientAuth
+from src.api.clients.auth import ClientAuth
 import allure
 
 class AuthLogic:

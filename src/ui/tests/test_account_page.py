@@ -1,5 +1,5 @@
 from src.ui.pages.main_page import MainPage
-from ui.pages.account_page import AccountPage
+from src.ui.pages.account_page import AccountPage
 from src.api.logic.api_auth import AuthLogic
 from dotenv import load_dotenv
 import os

@@ -58,7 +58,7 @@ class BasePage:
     
     @allure.step("Перетащим элемент к другому элементу")
     def drag_and_drop(self, locator, final_destination):
-        el = self.find_element_with_wait(locator)
-        final_destination = self.find_element_with_wait(final_destination)
+        el = self.wait_and_find_element(locator)
+        final_destination = self.wait_and_find_element(final_destination)
         action = ActionChains(self.driver)
         action.drag_and_drop(el, final_destination).perform()

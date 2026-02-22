@@ -7,7 +7,7 @@ class LoginPage(BasePage):
     
     @allure.step("Кликнуть по ссылке забытого пароля")
     def open_forgot_password_link(self):
-        self.wait_and_click(LoginPageLocators.FORGOT_PASSWORD_LINK)
+        self.wait_to_be_clickable_and_click(LoginPageLocators.FORGOT_PASSWORD_LINK)
     
     @allure.step("Логин")
     def login(self, email, password):

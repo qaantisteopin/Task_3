@@ -1,4 +1,5 @@
 import pytest
+import os
 from selenium import webdriver
 from src.api.logic.api_auth import AuthLogic
 from src.api.helpers.generator import FakeUserGenerator

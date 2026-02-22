@@ -32,7 +32,7 @@ class TestMainMenu:
 
     @allure.title("Закрытие модального окна ингредиента")
     @allure.description("Кликаем на ингредиент, закрываем модальное окно, проверяем видимость титульника модального окна")
-    def test_open_ingredient_modal_window(self, driver):
+    def test_close_ingredient_modal_window(self, driver):
         main_page = MainPage(driver)
         main_page.choose_ingredient()
         main_page.close_modal_window()

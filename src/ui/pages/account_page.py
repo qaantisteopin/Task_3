@@ -1,5 +1,5 @@
 from src.ui.pages.base_page import BasePage
-from ui.locators.account_page_locators import AccountPageLocators
+from src.ui.locators.account_page_locators import AccountPageLocators
 import allure
 
 
