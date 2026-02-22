@@ -1,5 +1,5 @@
 from src.ui.pages.base_page import BasePage
-from ui.locators.forgot_password_page_locators import ForgotPasswordPageLocators
+from src.ui.locators.forgot_password_page_locators import ForgotPasswordPageLocators
 import allure
 
 

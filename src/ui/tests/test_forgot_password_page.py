@@ -2,9 +2,11 @@ from src.ui.pages.main_page import MainPage
 from src.ui.pages.login_page import LoginPage
 from src.ui.pages.forgot_password_page import ForgotPasswordPage
 from src.ui.pages.reset_password_page import ResetPasswordPage
-from data import Urls
+from dotenv import load_dotenv
+import os
 import allure
-import pytest  
+
+load_dotenv()
 
 class TestForgotPassword:
 
@@ -16,7 +18,7 @@ class TestForgotPassword:
         login_page = LoginPage(driver)
         login_page.open_forgot_password_link()
         url = login_page.get_current_url()
-        assert url == Urls.SB_FORGOT_PASSWORD
+        assert url == os.getenv('SB_FORGOT_PASSWORD')
     
     @allure.title("Переход в раздел «История заказов»")
     @allure.description("Кликаем по кнопке ЛК в шапке, кликаем по ссылке восстановления пароля, " \
@@ -29,7 +31,7 @@ class TestForgotPassword:
         forgot_password_page = ForgotPasswordPage(driver)
         forgot_password_page.fill_and_click_reset_password()
         url = forgot_password_page.get_current_url()
-        assert url == Urls.SB_RESET_PASSWORD
+        assert url == os.getenv('SB_RESET_PASSWORD')
 
     @allure.title("Клик по кнопке показать/скрыть пароль делает поле активным — подсвечивает его")
     @allure.description("Кликаем по кнопке ЛК в шапке, кликаем по ссылке восстановления пароля, " \
@@ -41,7 +43,7 @@ class TestForgotPassword:
         login_page.open_forgot_password_link()
         forgot_password_page = ForgotPasswordPage(driver)
         forgot_password_page.fill_and_click_reset_password()
-        reset_password_page = ResetPasswordPage()
+        reset_password_page = ResetPasswordPage(driver)
         reset_password_page.show_or_hide_password()
         class_div_input_password = reset_password_page.get_class_div_passport_input()
         class_label_input_password = reset_password_page.get_class_label_passport_input()
