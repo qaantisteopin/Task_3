@@ -1,5 +1,7 @@
 from src.ui.pages.base_page import BasePage
 from src.ui.locators.login_page_locators import LoginPageLocators
+from src.ui.locators.main_page_locators import MainPageLocators
+from selenium.common import ElementClickInterceptedException
 import allure
 
 
@@ -13,4 +15,6 @@ class LoginPage(BasePage):
     def login(self, email, password):
         self.send_keys(LoginPageLocators.EMAIL_INPUT, email)
         self.send_keys(LoginPageLocators.PASSWORD_INPUT, password)
-        self.wait_to_be_clickable_and_click(LoginPageLocators.LOGIN_BUTTON)
+        elem = self.wait_and_find_element(LoginPageLocators.LOGIN_BUTTON)
+        self.driver.execute_script("arguments[0].click();", elem)
+        self.wait_and_find_element(MainPageLocators.LK_BUTTON)

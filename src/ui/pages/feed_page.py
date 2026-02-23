@@ -20,12 +20,16 @@ class FeedPage(BasePage):
     
     @allure.step("Получить показания счетчика за все время")
     def get_all_time_counter(self):
-        return int(self.get_value(FeedPageLocators.ALL_TIME))
+        return self.get_value(FeedPageLocators.ALL_TIME)
     
     @allure.step("Получить показания счетчика за сегодня")
     def get_today_time_counter(self):
-        return int(self.get_value(FeedPageLocators.TODAY))
+        return self.get_value(FeedPageLocators.TODAY)
     
-    @allure.title("Получить номер заказа В работе")
+    @allure.step("Получить номер заказа В работе")
     def get_order_number_in_work(self):
         return self.get_value(FeedPageLocators.IN_WORK)
+    
+    @allure.step("Получить список заказов")
+    def get_orders_numbers(self):
+        return self.get_value(FeedPageLocators.ORDERS_NUMBERS)

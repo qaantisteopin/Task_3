@@ -13,7 +13,14 @@ class AccountPage(BasePage):
     def get_order_number(self):
         self.get_value(AccountPageLocators.ORDER_NUMBER)
 
-
     @allure.step("Выйти из аккаунта")
     def logout(self):
         self.wait_and_click(AccountPageLocators.BUTTON_LOGOUT)
+
+    @allure.step("Подождем загрузки страницы")
+    def wait_for_link(self):
+        self.wait_and_find_element(AccountPageLocators.BUTTON_LOGOUT)
+
+    @allure.step("Ещё один вариант подождать загрузки")
+    def wait_for_input(self):
+        self.wait_and_find_element(AccountPageLocators.PASSWORD_INPUT)

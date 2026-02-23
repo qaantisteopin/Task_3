@@ -1,6 +1,7 @@
 from src.ui.pages.main_page import MainPage
 from src.ui.pages.account_page import AccountPage
 from src.api.logic.api_auth import AuthLogic
+import time
 from dotenv import load_dotenv
 import os
 import allure
@@ -16,6 +17,10 @@ class TestAccontProfile:
         main_page = MainPage(driver)
         main_page.open_header_login_form()
         account_profile_page = AccountPage(driver)
+        time.sleep(5)
+        if main_page.get_current_url() == os.getenv("SB_URL"):
+            main_page.open_header_login_form()
+        account_profile_page.wait_for_link()
         result = account_profile_page.get_current_url()
         logic_auth = AuthLogic()
         token = logic_auth.login_user(test_body, 200)["accessToken"]
@@ -33,7 +38,11 @@ class TestAccontProfile:
         main_page = MainPage(driver)
         main_page.open_header_login_form()
         account_profile_page = AccountPage(driver)
+        time.sleep(5)
+        if main_page.get_current_url() == os.getenv("SB_URL"):
+            main_page.open_header_login_form()
         account_profile_page.open_order_history()
+        account_profile_page.wait_for_link()
         result = account_profile_page.get_current_url()
         logic_auth = AuthLogic()
         token = logic_auth.login_user(test_body, 200)["accessToken"]
@@ -46,12 +55,16 @@ class TestAccontProfile:
 
     @allure.title("Выход из аккаунта")
     @allure.description("Предварительно логинемся, открываем ЛК, разлогинемся, проверяем ссылку")
-    def test_open_order_history(self, driver, ui_login_user):
+    def test_logout(self, driver, ui_login_user):
         test_body = ui_login_user
         main_page = MainPage(driver)
         main_page.open_header_login_form()
         account_profile_page = AccountPage(driver)
+        time.sleep(5)
+        if main_page.get_current_url() == os.getenv("SB_URL"):
+            main_page.open_header_login_form()
         account_profile_page.logout()
+        account_profile_page.wait_for_input()
         result = account_profile_page.get_current_url()
         logic_auth = AuthLogic()
         token = logic_auth.login_user(test_body, 200)["accessToken"]

@@ -15,6 +15,10 @@ class BasePage:
         WebDriverWait(self.driver, Config.DEFAULT_TIMEOUT).until(EC.visibility_of_element_located(locator))
         return self.driver.find_element(*locator)
     
+    @allure.step("Костылямба")
+    def wait_for_changes(self, locator):
+        WebDriverWait(self.driver, Config.DEFAULT_TIMEOUT).until(EC.text_to_be_present_in_element(locator, "2"))
+    
     @allure.step('Подождать пока элемента не станет кликабельным')
     def wait_to_be_clickable_and_find_element(self, locator):
         WebDriverWait(self.driver, Config.DEFAULT_TIMEOUT).until(EC.element_to_be_clickable(locator))
@@ -52,6 +56,14 @@ class BasePage:
         except TimeoutException:
             return False
         
+    @allure.step("Проверить невидимость элемента")
+    def check_invisible(self, locator):
+        try:
+            WebDriverWait(self.driver, Config.DEFAULT_TIMEOUT).until(EC.invisibility_of_element_located(locator))
+            return True
+        except TimeoutException:
+            return False
+        
     @allure.step("Получим значение элемента")
     def get_value(self, locator):
         return self.wait_and_find_element(locator).text
@@ -61,4 +73,12 @@ class BasePage:
         el = self.wait_and_find_element(locator)
         final_destination = self.wait_and_find_element(final_destination)
         action = ActionChains(self.driver)
-        action.drag_and_drop(el, final_destination).perform()
+        action.drag_and_drop(el, final_destination).pause(3).perform()
+
+    @allure.step("Получим значение элемента с применением костыля")
+    def get_value_with_cheat(self, locator):
+        return self.wait_for_changes(locator).text
+    
+    @allure.step("Обновим страницу")
+    def refresh(self):
+        self.driver.refresh()

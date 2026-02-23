@@ -5,6 +5,7 @@ from src.api.logic.api_auth import AuthLogic
 from src.api.helpers.generator import FakeUserGenerator
 from src.ui.pages.login_page import LoginPage
 from src.ui.pages.main_page import MainPage
+from selenium.webdriver.firefox.options import Options
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -16,10 +17,18 @@ def driver(request):
         browser = webdriver.Chrome()
     else:
         browser_name = 'Firefox'
-        browser = webdriver.Firefox()
+        firefox_options = Options()
+        firefox_options.add_argument("--width=1700")
+        firefox_options.add_argument("--height=1000")
+        browser = webdriver.Firefox(firefox_options)
     browser.get(os.getenv('SB_URL'))
+    request._browser_name = browser_name
     yield browser
     browser.quit()
+
+@pytest.fixture
+def browser_name(request):
+    return getattr(request, "_browser_name", None)
 
 @pytest.fixture(scope="function")
 def create_user():

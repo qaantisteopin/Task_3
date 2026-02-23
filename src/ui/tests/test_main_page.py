@@ -36,7 +36,8 @@ class TestMainMenu:
         main_page = MainPage(driver)
         main_page.choose_ingredient()
         main_page.close_modal_window()
-        assert main_page.check_mw_title_visible() == False
+        result = main_page.check_mw_title_invisible()
+        assert result == True
 
     @allure.title("Изменение счетчика заказа при добавлении ингредиента")
     @allure.description("Считываем счетчик, перетаскиваем ингредиент в конструктор, считываем счетчик, сравниваем значения счетчика")

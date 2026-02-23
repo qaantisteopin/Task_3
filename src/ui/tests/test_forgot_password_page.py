@@ -30,7 +30,9 @@ class TestForgotPassword:
         login_page.open_forgot_password_link()
         forgot_password_page = ForgotPasswordPage(driver)
         forgot_password_page.fill_and_click_reset_password()
-        url = forgot_password_page.get_current_url()
+        reset_password_page = ResetPasswordPage(driver)
+        reset_password_page.show_or_hide_password()
+        url = reset_password_page.get_current_url()
         assert url == os.getenv('SB_RESET_PASSWORD')
 
     @allure.title("Клик по кнопке показать/скрыть пароль делает поле активным — подсвечивает его")
@@ -45,8 +47,5 @@ class TestForgotPassword:
         forgot_password_page.fill_and_click_reset_password()
         reset_password_page = ResetPasswordPage(driver)
         reset_password_page.show_or_hide_password()
-        class_div_input_password = reset_password_page.get_class_div_passport_input()
-        class_label_input_password = reset_password_page.get_class_label_passport_input()
-        assert "input_status_active" in class_div_input_password
-        assert "input__placeholder-focused" in class_label_input_password
+        reset_password_page.check_active_password()
 

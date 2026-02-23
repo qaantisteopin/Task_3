@@ -1,7 +1,12 @@
 from src.ui.pages.base_page import BasePage
 from src.ui.locators.main_page_locators import MainPageLocators
 from selenium.common import ElementClickInterceptedException
+from selenium.webdriver.support import expected_conditions as EC
+import os
+from dotenv import load_dotenv
 import allure
+
+load_dotenv()
 
 
 class MainPage(BasePage):
@@ -11,7 +16,8 @@ class MainPage(BasePage):
         try:
             self.wait_to_be_clickable_and_click(MainPageLocators.LK_BUTTON)
         except ElementClickInterceptedException:
-            self.wait_to_be_clickable_and_click(MainPageLocators.LK_BUTTON)
+            elem = self.wait_and_find_element(MainPageLocators.LK_BUTTON)
+            self.driver.execute_script("arguments[0].click();", elem)
 
     @allure.step("Кликнуть по заголовку Конструктор в шапке")
     def open_header_main_page(self):
@@ -33,6 +39,10 @@ class MainPage(BasePage):
     def check_mw_title_visible(self):
         return self.check_visible(MainPageLocators.MW_TITLE)
     
+    @allure.step("Проверим невидимость титульника модального окна")
+    def check_mw_title_invisible(self):
+        return self.check_invisible(MainPageLocators.MW_TITLE)
+    
     @allure.step("Проверим видимость титульника модального окна создания заказа")
     def check_mw_creation_title_visible(self):
         return self.check_visible(MainPageLocators.MW_CREATION_TITLE)
@@ -50,6 +60,9 @@ class MainPage(BasePage):
         self.drag_and_drop(MainPageLocators.INGREDIENT, MainPageLocators.CONSTRUCTOR)
         self.wait_to_be_clickable_and_click(MainPageLocators.CREATION_BUTTON)
 
+    @allure.step("Форсированно перейдём на страницу account profile")
+    def go_to_profile(self):
+        self.driver.get("SB_ACCOUNT_PROFILE")
 
 
     

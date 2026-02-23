@@ -3,6 +3,7 @@ from src.ui.pages.feed_page import FeedPage
 from src.ui.pages.account_page import AccountPage
 from src.api.logic.api_auth import AuthLogic
 from src.api.logic.api_orders import OrdersLogic
+import time
 from dotenv import load_dotenv
 import os
 import allure
@@ -38,9 +39,10 @@ class TestFeed:
         account_page = AccountPage(driver)
         feed_page = FeedPage(driver)
         account_page.open_order_history()
+        time.sleep(5)
         result_from_account_page = account_page.get_order_number()
         main_page.open_header_feed_page()
-        result_from_feed_page = feed_page.get_order_number()
+        result_from_feed_page = feed_page.get_orders_numbers()
         logic_auth.delete_user(test_body, headers)
         assert result_from_account_page in result_from_feed_page
 
@@ -68,7 +70,7 @@ class TestFeed:
 
     @allure.title("При создании нового заказа счётчик Выполнено за сегодня увеличивается")
     @allure.description("Предварительно залогиниться, перейти в Ленту, зафиксировать счетчик, создать заказ, зафиксировать счетчик, сравнить")
-    def test_counter_all_feed(self, driver, ui_login_user):
+    def test_counter_today_feed(self, driver, ui_login_user):
         test_body = ui_login_user
         logic_auth = AuthLogic()
         logic_orders = OrdersLogic()
@@ -81,7 +83,7 @@ class TestFeed:
         main_page = MainPage(driver)
         main_page.open_header_feed_page()
         feed_page = FeedPage(driver)
-        prev_counter = feed_page.get_today_time_counter
+        prev_counter = feed_page.get_today_time_counter()
         logic_orders.create_order(headers, body, 200)
         driver.refresh()
         next_counter = feed_page.get_today_time_counter()
@@ -90,7 +92,7 @@ class TestFeed:
 
     @allure.title("Отображается номер заказа в работе")
     @allure.description("Предварительно залогиниться, перейти в Ленту, создать заказ, зафиксировать номер, сравнить")
-    def test_counter_all_feed(self, driver, ui_login_user):
+    def test_order_number_in_work(self, driver, ui_login_user):
         test_body = ui_login_user
         logic_auth = AuthLogic()
         logic_orders = OrdersLogic()
@@ -105,9 +107,9 @@ class TestFeed:
         feed_page = FeedPage(driver)
         order_number = logic_orders.create_order(headers, body, 200)["order"]["number"]
         driver.refresh()
-        feed_page_order = feed_page.get_today_time_counter()
+        feed_page_order = feed_page.get_order_number_in_work()
         logic_auth.delete_user(test_body, headers)
-        assert order_number in feed_page_order
+        assert str(order_number) in feed_page_order
 
 
         

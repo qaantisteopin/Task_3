@@ -18,3 +18,8 @@ class ResetPasswordPage(BasePage):
     def get_class_label_passport_input(self):
         element = self.wait_and_find_element(ResetPasswordPageLocators.LABEL_PASSWORD_INPUT)
         return element.get_attribute("class")
+    
+    @allure.step("Активность поля ввода")
+    def check_active_password(self):
+        element = self.wait_and_find_element(ResetPasswordPageLocators.ACTIVE_INPUT_PASSWORD)
+        return element.is_displayed()
