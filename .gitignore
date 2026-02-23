@@ -82,7 +82,3 @@ dmypy.json
 # OS files
 .DS_Store
 Thumbs.db
-
-# Allure results
-allure-results/
-allure-report/
